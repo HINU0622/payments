@@ -1,0 +1,59 @@
+<head>
+    <meta charset="utf-8" />
+    <title>결제하기</title>
+    <!-- 토스페이먼츠 결제창 SDK 추가 -->
+    <script src="https://js.tosspayments.com/v1"></script>
+</head>
+<body>
+<template>
+    <section class="test">
+        <input type="number" placeholder="금액 입력" v-model="price" >
+        <div v-on:click="PaymentBtn('카드')">카드결제</div>
+        <div v-on:click="PaymentBtn('가상계좌')">가상계좌</div>
+        <div v-on:click="PaymentBtn('계좌이체')">계좌이체</div>
+        <div v-on:click="PaymentBtn('휴대폰')">휴대폰</div>
+    </section>
+</template>
+
+<script>
+
+    var clientKey = 'test_ck_OyL0qZ4G1VO2j12BBPM3oWb2MQYg'
+    // eslint-disable-next-line no-unused-vars,no-undef
+    var tossPayments = TossPayments(clientKey)
+
+    export default {
+        name: "test",
+        data(){
+            return{
+                price: null
+            }
+        },
+        methods: {
+            PaymentBtn:function(method){
+
+                tossPayments.requestPayment(method, {
+                    amount: this.price,
+                    orderId: 'xnDIqpt7Dlfdtd99WwXgu',
+                    orderName: 'YOYOSTUDY',
+                    customerName: '뇌손실',
+                    successUrl: window.location.origin + '/success',
+                    failUrl: window.location.origin + '/fail',
+                })
+
+            }
+        }
+    }
+</script>
+
+
+<style scoped>
+    input[type="number"]::-webkit-outer-spin-button,
+    input[type="number"]::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+    input{ width:300px; border:0; border-bottom:1px #a8a8a8 solid; margin:0 10px 0; padding:0; height:40px; line-height:40px; outline: none; }
+    .test{ display:flex; flex-direction:column; justify-content: center; align-items: center; height:100vh; }
+    div{ width: 300px; height:40px; background-color:#ffffff; border:1px #a8a8a8 solid; color:black; display:flex; align-items: center; justify-content: center; cursor:pointer; margin-top:20px; }
+</style>
+</body>
